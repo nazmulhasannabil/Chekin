@@ -42,7 +42,7 @@ export async function extractFaceDescriptor(
 ): Promise<{ descriptor: Float32Array | null; error?: string }> {
   try {
     // Dynamic import to avoid bundling tfjs in all server code
-    const faceapi = await import("@vladmandic/face-api/dist/face-api.node-gpu.js" as string);
+    const faceapi = await import("@vladmandic/face-api/dist/face-api.node.js" as string);
     const tf = await import("@tensorflow/tfjs-node");
     const path = await import("path");
     const fs = await import("fs");

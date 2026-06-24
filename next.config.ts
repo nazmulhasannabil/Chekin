@@ -8,6 +8,10 @@ const withSerwist = withSerwistInit({
 });
 
 const nextConfig: NextConfig = {
+  serverExternalPackages: [
+    "@tensorflow/tfjs-node",
+    "@vladmandic/face-api",
+  ],
   experimental: {
     serverActions: {
       bodySizeLimit: "4mb",
