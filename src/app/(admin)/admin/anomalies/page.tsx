@@ -63,7 +63,7 @@ async function AnomaliesData() {
       )}
 
       {pendingEvents.map((event) => {
-        const emp = event.employeeId as Record<string, unknown>;
+        const emp = event.employeeId as unknown as Record<string, unknown>;
         return (
           <GlassCard key={event._id.toString()}>
             <div className="flex items-start gap-4">

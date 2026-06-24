@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, type Resolver } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import {
@@ -44,7 +44,7 @@ export function ShiftFormDialog() {
     watch,
     setValue,
     formState: { errors },
-  } = useForm<FormData>({ resolver: zodResolver(schema) });
+  } = useForm<FormData>({ resolver: zodResolver(schema) as Resolver<FormData> });
 
   function onSubmit(data: FormData) {
     setError("");
@@ -61,11 +61,9 @@ export function ShiftFormDialog() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button size="sm" className="gap-2">
-          <Plus className="h-4 w-4" />
-          New Shift
-        </Button>
+      <DialogTrigger render={<Button size="sm" className="gap-2" />}>
+        <Plus className="h-4 w-4" />
+        New Shift
       </DialogTrigger>
       <DialogContent className="bg-card border-border max-w-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader>

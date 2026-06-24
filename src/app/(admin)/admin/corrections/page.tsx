@@ -43,7 +43,7 @@ async function CorrectionsAdminData() {
         )}
         <div className="space-y-3">
           {corrections.map((c) => {
-            const emp = c.employeeId as Record<string, unknown>;
+            const emp = c.employeeId as unknown as Record<string, unknown>;
             return (
               <GlassCard key={c._id.toString()}>
                 <div className="flex items-start justify-between">
@@ -99,7 +99,7 @@ async function CorrectionsAdminData() {
                 </thead>
                 <tbody>
                   {resolved.map((c) => {
-                    const emp = c.employeeId as Record<string, unknown>;
+                    const emp = c.employeeId as unknown as Record<string, unknown>;
                     return (
                       <tr key={c._id.toString()} className="border-b border-white/5 last:border-0">
                         <td className="py-3 px-4 font-medium">{emp?.displayName as string}</td>

@@ -36,15 +36,13 @@ export default function AdminTopbar() {
         </div>
 
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <button className="rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background">
-              <Avatar className="h-8 w-8 border border-white/20">
-                <AvatarImage src={(user as { image?: string } | null | undefined)?.image} />
-                <AvatarFallback className="bg-primary/20 text-primary text-xs">
-                  {initials}
-                </AvatarFallback>
-              </Avatar>
-            </button>
+          <DropdownMenuTrigger render={<button className="rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background" />}>
+            <Avatar className="h-8 w-8 border border-white/20">
+              <AvatarImage src={(user as { image?: string } | null | undefined)?.image} />
+              <AvatarFallback className="bg-primary/20 text-primary text-xs">
+                {initials}
+              </AvatarFallback>
+            </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-40 bg-card border-border">
             <DropdownMenuItem onClick={() => router.push("/admin/settings")}>

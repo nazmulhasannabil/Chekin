@@ -26,7 +26,7 @@ async function LiveBoardData() {
   ]);
 
   const records = attendanceDays.map((day) => {
-    const emp = day.employeeId as Record<string, unknown>;
+    const emp = day.employeeId as unknown as Record<string, unknown>;
     return {
       id: day._id.toString(),
       employeeId: emp?._id?.toString() ?? "",

@@ -62,11 +62,9 @@ export function SubmitCorrectionDialog({ recentDays }: { recentDays: RecentDay[]
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button size="sm" className="gap-2">
-          <Plus className="h-4 w-4" />
-          New Request
-        </Button>
+      <DialogTrigger render={<Button size="sm" className="gap-2" />}>
+        <Plus className="h-4 w-4" />
+        New Request
       </DialogTrigger>
       <DialogContent className="bg-card border-border max-w-md">
         <DialogHeader>
@@ -75,7 +73,7 @@ export function SubmitCorrectionDialog({ recentDays }: { recentDays: RecentDay[]
         <form onSubmit={handleSubmit} className="space-y-4 mt-2">
           <div className="space-y-1.5">
             <Label>Date (optional)</Label>
-            <Select onValueChange={setSelectedDayId}>
+            <Select onValueChange={(v: string | null) => { if (v !== null) setSelectedDayId(v); }}>
               <SelectTrigger className="bg-white/5 border-white/10">
                 <SelectValue placeholder="Select a date…" />
               </SelectTrigger>

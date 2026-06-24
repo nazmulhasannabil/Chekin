@@ -47,7 +47,7 @@ async function RollCallData() {
   // Group by branch
   const branchGroups = new Map<string, typeof currentlyInside>();
   for (const event of currentlyInside) {
-    const emp = event.employeeId as Record<string, unknown>;
+    const emp = event.employeeId as unknown as Record<string, unknown>;
     const branchId = (emp?.branch as string) ?? "unknown";
     if (!branchGroups.has(branchId)) branchGroups.set(branchId, []);
     branchGroups.get(branchId)!.push(event);
@@ -77,7 +77,7 @@ async function RollCallData() {
             </p>
             <div className="space-y-2">
               {events.map((event) => {
-                const emp = event.employeeId as Record<string, unknown>;
+                const emp = event.employeeId as unknown as Record<string, unknown>;
                 return (
                   <div
                     key={event._id.toString()}

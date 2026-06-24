@@ -167,6 +167,6 @@ export async function getExportJobs() {
     errorMessage: j.errorMessage,
     createdAt: j.createdAt.toISOString(),
     completedAt: j.completedAt?.toISOString(),
-    requestedBy: (j.requestedBy as Record<string, unknown>)?.name as string ?? "Unknown",
+    requestedBy: (j.requestedBy as unknown as Record<string, unknown>)?.name as string ?? "Unknown",
   }));
 }

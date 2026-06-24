@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
 
   return NextResponse.json({
     data: records.map((r) => {
-      const emp = r.employeeId as Record<string, unknown>;
+      const emp = r.employeeId as unknown as Record<string, unknown>;
       return {
         id: r._id.toString(),
         employeeId: emp?._id?.toString() ?? "",

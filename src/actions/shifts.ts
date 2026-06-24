@@ -41,7 +41,7 @@ export async function createShift(input: ShiftInput) {
     action: "SHIFT_CREATED",
     resourceType: "Shift",
     resourceId: shift._id,
-    newValue: input,
+    newValue: { ...input } as Record<string, unknown>,
     ipAddress: h.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown",
   });
 

@@ -31,9 +31,9 @@ async function EmployeesData() {
   ]);
 
   const serialized = employees.map((e) => {
-    const branch = e.branch as Record<string, unknown> | null;
-    const dept = e.department as Record<string, unknown> | null;
-    const shift = e.shiftId as Record<string, unknown> | null;
+    const branch = e.branch as unknown as Record<string, unknown> | null;
+    const dept = e.department as unknown as Record<string, unknown> | null;
+    const shift = e.shiftId as unknown as Record<string, unknown> | null;
     return {
       id: e._id.toString(),
       employeeCode: e.employeeCode,

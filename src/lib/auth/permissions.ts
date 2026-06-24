@@ -23,7 +23,7 @@ export async function getServerSession(): Promise<AuthContext | null> {
 
   if (!session?.user) return null;
 
-  const user = session.user as AuthContext & {
+  const user = session.user as typeof session.user & {
     organizationId?: string;
     role?: Role;
     employeeId?: string;

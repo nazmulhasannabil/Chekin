@@ -54,11 +54,9 @@ export function ApplyLeaveDialog() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button size="sm" className="gap-2">
-          <Plus className="h-4 w-4" />
-          Apply
-        </Button>
+      <DialogTrigger render={<Button size="sm" className="gap-2" />}>
+        <Plus className="h-4 w-4" />
+        Apply
       </DialogTrigger>
       <DialogContent className="bg-card border-border max-w-md">
         <DialogHeader>

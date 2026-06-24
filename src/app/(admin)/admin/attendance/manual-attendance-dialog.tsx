@@ -65,11 +65,9 @@ export function ManualAttendanceDialog({ employees }: Props) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button variant="outline" size="sm" className="gap-2 bg-white/5 border-white/10">
-          <Plus className="h-4 w-4" />
-          Manual Entry
-        </Button>
+      <DialogTrigger render={<Button variant="outline" size="sm" className="gap-2 bg-white/5 border-white/10" />}>
+        <Plus className="h-4 w-4" />
+        Manual Entry
       </DialogTrigger>
       <DialogContent className="bg-card border-border max-w-md">
         <DialogHeader>
@@ -79,7 +77,7 @@ export function ManualAttendanceDialog({ employees }: Props) {
         <form onSubmit={handleSubmit} className="space-y-4 mt-2">
           <div className="space-y-1.5">
             <Label>Employee</Label>
-            <Select onValueChange={setEmployeeId} required>
+            <Select onValueChange={(v: string | null) => { if (v !== null) setEmployeeId(v); }} required>
               <SelectTrigger className="bg-white/5 border-white/10">
                 <SelectValue placeholder="Select employee" />
               </SelectTrigger>

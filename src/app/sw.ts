@@ -1,5 +1,5 @@
 import type { PrecacheEntry, SerwistGlobalConfig } from "serwist";
-import { Serwist } from "serwist";
+import { Serwist, NetworkFirst, ExpirationPlugin } from "serwist";
 import { defaultCache } from "@serwist/next/worker";
 
 // This augments the global scope with Serwist-specific types
@@ -18,30 +18,36 @@ const serwist = new Serwist({
   navigationPreload: true,
   runtimeCaching: [
     ...defaultCache,
-    // Cache API responses for offline viewing
     {
       matcher: /^\/api\/attendance/,
-      handler: "NetworkFirst",
-      options: {
+      handler: new NetworkFirst({
         cacheName: "attendance-api",
         networkTimeoutSeconds: 3,
-        expiration: {
-          maxEntries: 100,
-          maxAgeSeconds: 60 * 60, // 1 hour
-        },
-      },
+        plugins: [
+          new ExpirationPlugin({ maxEntries: 100, maxAgeSeconds: 60 * 60 }),
+        ],
+      }),
     },
   ],
   offlineAnalyticsConfig: false,
   fallbacks: {
-    document: "/offline",
+    entries: [
+      {
+        url: "/offline",
+        matcher({ request }: { request: Request }) {
+          return request.destination === "document";
+        },
+      },
+    ],
   },
 });
 
 serwist.addEventListeners();
 
 // Handle background sync for offline attendance events
-self.addEventListener("sync", (event) => {
+// Background Sync API is not yet in the TS lib; cast to any to access it
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(self as any).addEventListener("sync", (event: any) => {
   if (event.tag === "sync-attendance") {
     event.waitUntil(syncOfflineAttendance());
   }

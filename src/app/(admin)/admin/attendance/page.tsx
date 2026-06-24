@@ -82,8 +82,8 @@ async function AttendanceAdminData({
                 </tr>
               )}
               {filtered.map((record) => {
-                const emp = record.employeeId as Record<string, unknown>;
-                const adjBy = record.adjustedBy as Record<string, unknown> | null;
+                const emp = record.employeeId as unknown as Record<string, unknown>;
+                const adjBy = record.adjustedBy as unknown as Record<string, unknown> | null;
                 return (
                   <tr
                     key={record._id.toString()}

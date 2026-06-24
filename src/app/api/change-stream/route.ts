@@ -40,14 +40,16 @@ export async function GET(request: NextRequest) {
         );
 
         changeStream.on("change", (change) => {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const c = change as any;
           const event = {
             type: "attendance_update",
-            documentId: change.documentKey?._id,
+            documentId: c.documentKey?._id,
             operationType: change.operationType,
-            employeeId: change.fullDocument?.employeeId,
-            attendanceType: change.fullDocument?.type,
-            status: change.fullDocument?.status,
-            recordedAt: change.fullDocument?.recordedAt,
+            employeeId: c.fullDocument?.employeeId,
+            attendanceType: c.fullDocument?.type,
+            status: c.fullDocument?.status,
+            recordedAt: c.fullDocument?.recordedAt,
           };
           controller.enqueue(encoder.encode(`data: ${JSON.stringify(event)}\n\n`));
         });

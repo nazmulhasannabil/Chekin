@@ -76,11 +76,9 @@ export function InviteEmployeeDialog({ branches, departments, shifts }: Props) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button size="sm" className="gap-2">
-          <Plus className="h-4 w-4" />
-          Invite Employee
-        </Button>
+      <DialogTrigger render={<Button size="sm" className="gap-2" />}>
+        <Plus className="h-4 w-4" />
+        Invite Employee
       </DialogTrigger>
       <DialogContent className="bg-card border-border max-w-lg max-h-[90vh] overflow-y-auto">
         <DialogHeader>
@@ -121,7 +119,7 @@ export function InviteEmployeeDialog({ branches, departments, shifts }: Props) {
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
               <Label>Branch</Label>
-              <Select onValueChange={(v) => setValue("branchId", v)}>
+              <Select onValueChange={(v: string | null) => setValue("branchId", v ?? undefined)}>
                 <SelectTrigger className="bg-white/5 border-white/10">
                   <SelectValue placeholder="Select branch" />
                 </SelectTrigger>
@@ -134,7 +132,7 @@ export function InviteEmployeeDialog({ branches, departments, shifts }: Props) {
             </div>
             <div className="space-y-1.5">
               <Label>Department</Label>
-              <Select onValueChange={(v) => setValue("departmentId", v)}>
+              <Select onValueChange={(v: string | null) => setValue("departmentId", v ?? undefined)}>
                 <SelectTrigger className="bg-white/5 border-white/10">
                   <SelectValue placeholder="Select dept" />
                 </SelectTrigger>
@@ -150,7 +148,7 @@ export function InviteEmployeeDialog({ branches, departments, shifts }: Props) {
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
               <Label>Shift</Label>
-              <Select onValueChange={(v) => setValue("shiftId", v)}>
+              <Select onValueChange={(v: string | null) => setValue("shiftId", v ?? undefined)}>
                 <SelectTrigger className="bg-white/5 border-white/10">
                   <SelectValue placeholder="Select shift" />
                 </SelectTrigger>

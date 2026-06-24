@@ -23,9 +23,9 @@ async function ProfileData() {
 
   if (!employee) redirect("/login?error=no_employee");
 
-  const branch = employee.branch as Record<string, unknown> | null;
-  const dept = employee.department as Record<string, unknown> | null;
-  const shift = employee.shiftId as Record<string, unknown> | null;
+  const branch = employee.branch as unknown as Record<string, unknown> | null;
+  const dept = employee.department as unknown as Record<string, unknown> | null;
+  const shift = employee.shiftId as unknown as Record<string, unknown> | null;
 
   return (
     <div className="space-y-4">

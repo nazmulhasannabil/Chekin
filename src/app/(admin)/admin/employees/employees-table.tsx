@@ -45,7 +45,7 @@ export function EmployeesTable({ employees }: { employees: Employee[] }) {
             onChange={(e) => setSearch(e.target.value)}
             className="flex-1 min-w-40 bg-white/5 border-white/10 h-9 text-sm"
           />
-          <Select value={statusFilter} onValueChange={setStatusFilter}>
+          <Select value={statusFilter} onValueChange={(v: string | null) => { if (v !== null) setStatusFilter(v); }}>
             <SelectTrigger className="w-36 h-9 bg-white/5 border-white/10 text-sm">
               <SelectValue />
             </SelectTrigger>

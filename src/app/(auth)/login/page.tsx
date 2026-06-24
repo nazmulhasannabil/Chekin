@@ -46,7 +46,7 @@ export default function LoginPage() {
     setPasskeyLoading(true);
     setError("");
     try {
-      const result = await passkey.signIn({ callbackURL: "/" });
+      const result = await signIn.passkey();
       if (result?.error) {
         setError(result.error.message ?? "Passkey sign-in failed.");
       }
