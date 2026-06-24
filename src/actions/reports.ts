@@ -23,7 +23,7 @@ export async function createExportJob(filters: ReportFilters) {
     requestedBy: session.userId,
     type: "ATTENDANCE",
     format: filters.format ?? "XLSX",
-    filters,
+    filters: filters as Record<string, unknown>,
     status: "PENDING",
     expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
   });
