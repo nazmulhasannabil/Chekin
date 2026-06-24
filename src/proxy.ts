@@ -34,7 +34,7 @@ function isAdminRoute(pathname: string): boolean {
 const ADMIN_ROLES = ["SUPER_ADMIN", "HR_ADMIN", "BRANCH_ADMIN", "AUDITOR"];
 const MANAGER_ROLES = [...ADMIN_ROLES, "MANAGER"];
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Allow public routes and static assets
@@ -92,7 +92,6 @@ export async function middleware(request: NextRequest) {
 
   // Guard employee routes — all authenticated users allowed
   if (isAdminRoute(pathname) || EMPLOYEE_ROUTES.some((r) => pathname.startsWith(r))) {
-    // Ensure org is set
     if (!user.organizationId) {
       return NextResponse.redirect(new URL("/login?error=no_org", request.url));
     }

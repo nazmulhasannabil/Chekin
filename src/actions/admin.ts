@@ -38,9 +38,9 @@ export async function addManualAttendance(input: ManualAttendanceInput) {
     dateKey: input.dateKey,
   });
 
-  const previousValue = existing
+  const previousValue: Record<string, unknown> | undefined = existing
     ? { status: existing.status, checkInAt: existing.checkInAt, checkOutAt: existing.checkOutAt }
-    : null;
+    : undefined;
 
   const updatedDay = await AttendanceDay.findOneAndUpdate(
     { organizationId: session.organizationId, employeeId: input.employeeId, dateKey: input.dateKey },
