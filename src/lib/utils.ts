@@ -7,18 +7,21 @@ export function cn(...inputs: ClassValue[]) {
 
 // ─── Date / Time helpers ────────────────────────────────────────────────────
 
-/** "2026-06-24" from a Date */
+/**
+ * "YYYY-MM-DD" from a Date using local time.
+ * Always use this — never toISOString().split("T")[0] — to avoid
+ * UTC vs local-time mismatches near midnight on servers west of UTC.
+ */
 export function toDateKey(date: Date): string {
-  return date.toISOString().split("T")[0];
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
 }
 
-/** Today's date key in local time */
+/** Today's date key — delegates to toDateKey so they're always consistent. */
 export function todayKey(): string {
-  const d = new Date();
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${y}-${m}-${day}`;
+  return toDateKey(new Date());
 }
 
 /** "Jun 24, 2026" */
