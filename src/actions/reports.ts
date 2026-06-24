@@ -63,10 +63,10 @@ async function processExportJob(
     const { uploadBuffer, getPresignedUrl } = await import("@/lib/s3/client");
 
     const rows = days.map((day) => {
-      const emp = day.employeeId as Record<string, unknown>;
-      const branch = day.branchId as Record<string, unknown> | null;
-      const dept = day.departmentId as Record<string, unknown> | null;
-      const shift = day.shiftId as Record<string, unknown> | null;
+      const emp = day.employeeId as unknown as Record<string, unknown>;
+      const branch = day.branchId as unknown as Record<string, unknown> | null;
+      const dept = day.departmentId as unknown as Record<string, unknown> | null;
+      const shift = day.shiftId as unknown as Record<string, unknown> | null;
 
       return {
         employeeId: emp?.employeeCode as string ?? "",
