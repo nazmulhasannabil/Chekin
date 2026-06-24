@@ -34,9 +34,7 @@ const serwist = new Serwist({
     entries: [
       {
         url: "/offline",
-        matcher({ request }: { request: Request }) {
-          return request.destination === "document";
-        },
+        matcher: ({ request }) => request.mode === "navigate",
       },
     ],
   },

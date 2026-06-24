@@ -14,6 +14,7 @@ interface Session {
 
 const PUBLIC_ROUTES = [
   "/login",
+  "/register",
   "/forgot-password",
   "/reset-password",
   "/verify-email",

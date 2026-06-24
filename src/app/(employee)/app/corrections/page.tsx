@@ -1,7 +1,8 @@
 import { Suspense } from "react";
 import { requireAuth } from "@/lib/auth/permissions";
+import { getEmployeeForSession } from "@/lib/auth/employee-profile";
 import connectDB from "@/lib/db/connection";
-import { CorrectionRequest, Employee, AttendanceDay } from "@/lib/db/models";
+import { CorrectionRequest, AttendanceDay } from "@/lib/db/models";
 import { GlassCard } from "@/components/shared/glass-card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatDate } from "@/lib/utils";
@@ -11,17 +12,13 @@ import type { CorrectionStatus } from "@/types";
 
 async function CorrectionsData() {
   const session = await requireAuth();
+  const employee = await getEmployeeForSession(session);
+  if (!employee) redirect("/login?error=no_org");
+
   await connectDB();
 
-  const employee = await Employee.findOne({
-    organizationId: session.organizationId,
-    userId: session.userId,
-  }).lean();
-
-  if (!employee) redirect("/login?error=no_employee");
-
   const corrections = await CorrectionRequest.find({
-    organizationId: session.organizationId,
+    organizationId: employee.organizationId,
     employeeId: employee._id,
   })
     .sort({ createdAt: -1 })
@@ -29,7 +26,7 @@ async function CorrectionsData() {
     .lean();
 
   const recentDays = await AttendanceDay.find({
-    organizationId: session.organizationId,
+    organizationId: employee.organizationId,
     employeeId: employee._id,
   })
     .sort({ date: -1 })

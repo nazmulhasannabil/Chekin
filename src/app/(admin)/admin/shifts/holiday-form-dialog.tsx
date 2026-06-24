@@ -38,9 +38,11 @@ export function HolidayFormDialog() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger render={<Button variant="outline" size="sm" className="gap-2 bg-white/5 border-white/10" />}>
-        <CalendarPlus className="h-4 w-4" />
-        Add Holiday
+      <DialogTrigger asChild>
+        <Button variant="outline" size="sm" className="gap-2 bg-white/5 border-white/10">
+          <CalendarPlus className="h-4 w-4" />
+          Add Holiday
+        </Button>
       </DialogTrigger>
       <DialogContent className="bg-card border-border max-w-sm">
         <DialogHeader>

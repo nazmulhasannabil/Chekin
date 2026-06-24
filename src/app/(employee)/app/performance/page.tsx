@@ -1,7 +1,8 @@
 import { Suspense } from "react";
 import { requireAuth } from "@/lib/auth/permissions";
+import { getEmployeeForSession } from "@/lib/auth/employee-profile";
 import connectDB from "@/lib/db/connection";
-import { Employee, AttendanceDay, CorrectionRequest } from "@/lib/db/models";
+import { AttendanceDay, CorrectionRequest } from "@/lib/db/models";
 import { GlassCard } from "@/components/shared/glass-card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { StatusBadge } from "@/components/attendance/status-badge";
@@ -21,14 +22,10 @@ interface DaySummary {
 
 async function PerformanceData() {
   const session = await requireAuth();
+  const employee = await getEmployeeForSession(session);
+  if (!employee) redirect("/login?error=no_org");
+
   await connectDB();
-
-  const employee = await Employee.findOne({
-    organizationId: session.organizationId,
-    userId: session.userId,
-  }).lean();
-
-  if (!employee) redirect("/login?error=no_employee");
 
   const today = new Date();
   const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
@@ -36,7 +33,7 @@ async function PerformanceData() {
   thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
   const days = await AttendanceDay.find({
-    organizationId: session.organizationId,
+    organizationId: employee.organizationId,
     employeeId: employee._id,
     date: { $gte: startOfMonth },
   })
@@ -44,7 +41,7 @@ async function PerformanceData() {
     .lean();
 
   const correctionRequests = await CorrectionRequest.find({
-    organizationId: session.organizationId,
+    organizationId: employee.organizationId,
     employeeId: employee._id,
   })
     .sort({ createdAt: -1 })

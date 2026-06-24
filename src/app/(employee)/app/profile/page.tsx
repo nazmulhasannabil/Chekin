@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { requireAuth } from "@/lib/auth/permissions";
+import { getEmployeeForSession } from "@/lib/auth/employee-profile";
 import connectDB from "@/lib/db/connection";
 import { Employee, PushSubscription } from "@/lib/db/models";
 import { GlassCard } from "@/components/shared/glass-card";
@@ -10,12 +11,12 @@ import { formatDate } from "@/lib/utils";
 
 async function ProfileData() {
   const session = await requireAuth();
+  const base = await getEmployeeForSession(session);
+  if (!base) redirect("/login?error=no_org");
+
   await connectDB();
 
-  const employee = await Employee.findOne({
-    organizationId: session.organizationId,
-    userId: session.userId,
-  })
+  const employee = await Employee.findById(base._id)
     .populate("branch", "name")
     .populate("department", "name")
     .populate("shiftId", "name startTime endTime")

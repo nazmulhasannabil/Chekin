@@ -45,7 +45,7 @@ export async function GET(request: NextRequest) {
           const event = {
             type: "attendance_update",
             documentId: c.documentKey?._id,
-            operationType: change.operationType,
+            operationType: c.operationType,
             employeeId: c.fullDocument?.employeeId,
             attendanceType: c.fullDocument?.type,
             status: c.fullDocument?.status,

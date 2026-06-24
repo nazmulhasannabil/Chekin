@@ -44,9 +44,11 @@ export function MonthLockControls({ dateKey }: { dateKey: string }) {
   return (
     <div className="flex gap-2">
       <AlertDialog>
-        <AlertDialogTrigger render={<Button variant="outline" size="sm" className="gap-2 bg-white/5 border-white/10" />}>
-          <Lock className="h-3.5 w-3.5" />
-          Lock Month
+        <AlertDialogTrigger asChild>
+          <Button variant="outline" size="sm" className="gap-2 bg-white/5 border-white/10">
+            <Lock className="h-3.5 w-3.5" />
+            Lock Month
+          </Button>
         </AlertDialogTrigger>
         <AlertDialogContent className="bg-card border-border">
           <AlertDialogHeader>
@@ -65,9 +67,11 @@ export function MonthLockControls({ dateKey }: { dateKey: string }) {
       </AlertDialog>
 
       <AlertDialog>
-        <AlertDialogTrigger render={<Button variant="outline" size="sm" className="gap-2 bg-white/5 border-white/10 text-amber-400 border-amber-500/30" />}>
-          <Unlock className="h-3.5 w-3.5" />
-          Unlock
+        <AlertDialogTrigger asChild>
+          <Button variant="outline" size="sm" className="gap-2 bg-white/5 border-white/10 text-amber-400 border-amber-500/30">
+            <Unlock className="h-3.5 w-3.5" />
+            Unlock
+          </Button>
         </AlertDialogTrigger>
         <AlertDialogContent className="bg-card border-border">
           <AlertDialogHeader>

@@ -1,38 +1,32 @@
 import { Suspense } from "react";
 import { requireAuth } from "@/lib/auth/permissions";
+import { getEmployeeForSession } from "@/lib/auth/employee-profile";
 import { getCurrentAttendanceState } from "@/actions/attendance";
 import connectDB from "@/lib/db/connection";
-import { Employee, AttendanceDay, AttendanceEvent } from "@/lib/db/models";
+import { AttendanceDay, AttendanceEvent } from "@/lib/db/models";
 import { AttendancePage } from "./attendance-page";
 import { Skeleton } from "@/components/ui/skeleton";
 import { redirect } from "next/navigation";
 
 async function AttendanceData() {
   const session = await requireAuth();
-  if (!session.employeeId) redirect("/login");
+  const employee = await getEmployeeForSession(session);
+
+  if (!employee) redirect("/login?error=no_org");
 
   await connectDB();
-
-  const employee = await Employee.findOne({
-    organizationId: session.organizationId,
-    userId: session.userId,
-  })
-    .populate("shiftId")
-    .lean();
-
-  if (!employee) redirect("/login?error=no_employee");
 
   const today = new Date();
   const dateKey = today.toISOString().split("T")[0];
 
   const todayRecord = await AttendanceDay.findOne({
-    organizationId: session.organizationId,
+    organizationId: employee.organizationId,
     employeeId: employee._id,
     dateKey,
   }).lean();
 
   const recentEvents = await AttendanceEvent.find({
-    organizationId: session.organizationId,
+    organizationId: employee.organizationId,
     employeeId: employee._id,
   })
     .sort({ recordedAt: -1 })
@@ -44,7 +38,7 @@ async function AttendanceData() {
   thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
   const monthDays = await AttendanceDay.find({
-    organizationId: session.organizationId,
+    organizationId: employee.organizationId,
     employeeId: employee._id,
     date: { $gte: thirtyDaysAgo },
   }).lean();

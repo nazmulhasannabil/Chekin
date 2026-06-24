@@ -62,9 +62,11 @@ export function SubmitCorrectionDialog({ recentDays }: { recentDays: RecentDay[]
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger render={<Button size="sm" className="gap-2" />}>
-        <Plus className="h-4 w-4" />
-        New Request
+      <DialogTrigger asChild>
+        <Button size="sm" className="gap-2">
+          <Plus className="h-4 w-4" />
+          New Request
+        </Button>
       </DialogTrigger>
       <DialogContent className="bg-card border-border max-w-md">
         <DialogHeader>

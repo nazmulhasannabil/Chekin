@@ -65,9 +65,11 @@ export function ManualAttendanceDialog({ employees }: Props) {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger render={<Button variant="outline" size="sm" className="gap-2 bg-white/5 border-white/10" />}>
-        <Plus className="h-4 w-4" />
-        Manual Entry
+      <DialogTrigger asChild>
+        <Button variant="outline" size="sm" className="gap-2 bg-white/5 border-white/10">
+          <Plus className="h-4 w-4" />
+          Manual Entry
+        </Button>
       </DialogTrigger>
       <DialogContent className="bg-card border-border max-w-md">
         <DialogHeader>

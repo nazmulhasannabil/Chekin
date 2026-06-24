@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { signIn, passkey } from "@/lib/auth/auth-client";
+import Link from "next/link";
+import { signIn } from "@/lib/auth/auth-client";
 import { GlassCard } from "@/components/shared/glass-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -39,16 +40,21 @@ export default function LoginPage() {
     });
     if (result.error) {
       setError(result.error.message ?? "Invalid credentials.");
+      return;
     }
+    router.push("/");
+    router.refresh();
   }
 
   async function handlePasskeyLogin() {
     setPasskeyLoading(true);
     setError("");
     try {
-      const result = await signIn.passkey();
+      const result = await signIn.passkey({ autoFill: true });
       if (result?.error) {
         setError(result.error.message ?? "Passkey sign-in failed.");
+      } else if (result?.data) {
+        router.push("/");
       }
     } catch {
       setError("Passkey sign-in failed. Make sure you have a registered passkey.");
@@ -136,7 +142,10 @@ export default function LoginPage() {
       </Button>
 
       <p className="mt-4 text-center text-xs text-muted-foreground">
-        New to Chekin? Contact your HR administrator for an invite.
+        Don&apos;t have an account?{" "}
+        <Link href="/register" className="text-primary hover:underline">
+          Create one
+        </Link>
       </p>
     </GlassCard>
   );

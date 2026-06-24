@@ -3,11 +3,9 @@ import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { passkey } from "@better-auth/passkey";
 import { twoFactor } from "better-auth/plugins/two-factor";
 import { MongoClient } from "mongodb";
-import dns from "dns";
+import { getMongoDbUri } from "@/lib/db/resolve-mongodb-uri";
 
-dns.setServers(["8.8.8.8", "8.8.4.4"]);
-
-const client = new MongoClient(process.env.MONGODB_URI!);
+const client = new MongoClient(await getMongoDbUri());
 
 export const auth = betterAuth({
   database: mongodbAdapter(client.db()),
