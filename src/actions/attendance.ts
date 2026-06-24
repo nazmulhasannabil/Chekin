@@ -10,6 +10,7 @@ import { detectAnomalies } from "@/lib/rules/anomaly";
 import { rateLimit } from "@/lib/redis/rate-limit";
 import { toDateKey } from "@/lib/utils";
 import type { AttendanceEventType, EventStatus, WorkMode } from "@/types";
+import type { IShift } from "@/lib/db/models/shift.model";
 
 export interface CheckInInput {
   type: AttendanceEventType;
@@ -284,7 +285,7 @@ async function upsertDailySummary(
   dateKey: string,
   recordedAt: Date,
   type: AttendanceEventType,
-  shift: Awaited<ReturnType<typeof Shift.findOne>>,
+  shift: IShift | null,
   isHoliday: boolean,
   eventId: string
 ) {
