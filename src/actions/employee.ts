@@ -17,7 +17,7 @@ export interface InviteEmployeeInput {
   departmentId?: string;
   shiftId?: string;
   role?: Role;
-  employmentType?: string;
+  employmentType?: "FULL_TIME" | "PART_TIME" | "CONTRACT" | "INTERN";
   employmentStartDate: string;
 }
 
